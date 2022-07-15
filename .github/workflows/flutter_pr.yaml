@@ -1,0 +1,47 @@
+name: Pull Request Flow
+
+# triggers
+on:
+  pull_request:
+    types: [edited, synchronize, reopened, opened]
+    branches:
+      - develop
+
+jobs:
+  pr-check:
+    name: Pull Request Check
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Setup Flutter
+        uses: actions/checkout@v3
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.4'
+          channel: 'stable'
+          cache: true
+          cache-key: flutter # optional, change this to force refresh cache
+          cache-path: ${{ runner.tool_cache }}/flutter
+          
+      - name: Cache ruby gems dependencies
+        uses: actions/cache@v3
+          env:
+            keyPath: ${{ runner.os }}-gems
+          with:
+            path: ~/.gem
+            key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
+            restore-keys: ${{ env.keyPath }}
+            
+       - name: Install gem dependencies
+         run: bundle config set path '~/.gem' && bundle install
+
+#       - name: Install Fastlane
+#         uses: ruby/setup-ruby@v1
+#         with:
+#           ruby-version: 3.0
+#           bundler-cache: true
+
+      # run lane pr
+      - name: Run Lint and Tests
+        env: 
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: bundle exec fastlane flutter pr
