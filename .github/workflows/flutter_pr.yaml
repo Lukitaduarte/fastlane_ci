@@ -40,7 +40,6 @@ jobs:
 #           ruby-version: 3.0
 #           bundler-cache: true
 
-      # run lane pr
       - name: Run Lint and Tests
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
