@@ -5,16 +5,18 @@ on:
   pull_request:
     types: [edited, synchronize, reopened, opened]
     branches:
-      - develop
+      - main
 
 jobs:
   pr-check:
     name: Pull Request Check
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+      
       - name: Setup Flutter
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.0.4'
           channel: 'stable'
@@ -22,26 +24,23 @@ jobs:
           cache-key: flutter # optional, change this to force refresh cache
           cache-path: ${{ runner.tool_cache }}/flutter
           
-      - name: Cache ruby gems dependencies
-        uses: actions/cache@v3
+      - name: Cache Fastlane dependencies
+        uses: actions/cache@v2
         env:
-          keyPath: ${{ runner.os }}-gems
+          fastlane-cache-key: fastlane-cache
+          fastlane-path: ~/.gem
         with:
-          path: ~/.gem
-          key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
-          restore-keys: ${{ env.keyPath }}
+          path: ${{ env.fastlane-path }}
+          key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
             
-      - name: Install gem dependencies
-        run: bundle config set path '~/.gem' && bundle install
-
-#       - name: Install Fastlane
-#         uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: 3.0
-#           bundler-cache: true
-
-      # run lane pr
+      - name: Install Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+          bundler-cache: true
+          
       - name: Run Lint and Tests
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bundle exec fastlane flutter pr
+        run: bundle exec fastlane flutter pull_request
