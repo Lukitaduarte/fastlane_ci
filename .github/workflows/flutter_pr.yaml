@@ -43,4 +43,4 @@ jobs:
       - name: Run Lint and Tests
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bundle exec fastlane flutter pr
+        run: bundle exec fastlane flutter pull_request
