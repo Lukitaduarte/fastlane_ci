@@ -24,6 +24,13 @@ jobs:
           cache-key: flutter # optional, change this to force refresh cache
           cache-path: ${{ runner.tool_cache }}/flutter
           
+      - name: Setup SSH Keys
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          
       - name: Cache Fastlane dependencies
         uses: actions/cache@v2
         env:
