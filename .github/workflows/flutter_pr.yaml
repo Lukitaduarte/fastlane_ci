@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Setup Flutter
-        uses: actions/checkout@v3
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.0.4'
           channel: 'stable'
@@ -24,15 +24,15 @@ jobs:
           
       - name: Cache ruby gems dependencies
         uses: actions/cache@v3
-          env:
-            keyPath: ${{ runner.os }}-gems
-          with:
-            path: ~/.gem
-            key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
-            restore-keys: ${{ env.keyPath }}
+        env:
+          keyPath: ${{ runner.os }}-gems
+        with:
+          path: ~/.gem
+          key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: ${{ env.keyPath }}
             
-       - name: Install gem dependencies
-         run: bundle config set path '~/.gem' && bundle install
+      - name: Install gem dependencies
+        run: bundle config set path '~/.gem' && bundle install
 
 #       - name: Install Fastlane
 #         uses: ruby/setup-ruby@v1
