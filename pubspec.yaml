@@ -30,6 +30,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  ci_dependency:
+    git:
+      url: git@github.com:Lukitaduarte/ci_dependency
+      ref: "main"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

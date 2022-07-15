@@ -113,6 +113,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  ci_dependency:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "6237a987cbf153b2d57dfb0f4cd767d5f548589f"
+      url: "git@github.com:Lukitaduarte/ci_dependency"
+    source: git
+    version: "0.0.1"
   clock:
     dependency: transitive
     description:
@@ -466,3 +475,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.17.5 <3.0.0"
+  flutter: ">=1.17.0"
