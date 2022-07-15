@@ -12,8 +12,10 @@ jobs:
     name: Pull Request Check
     runs-on: ubuntu-20.04
     steps:
-      - name: Setup Flutter
+      - name: Checkout branch
       - uses: actions/checkout@v3
+      
+      - name: Setup Flutter
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.0.4'
