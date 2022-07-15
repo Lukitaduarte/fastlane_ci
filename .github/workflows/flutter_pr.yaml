@@ -43,5 +43,5 @@ jobs:
       # run lane pr
       - name: Run Lint and Tests
         env: 
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bundle exec fastlane flutter pr
