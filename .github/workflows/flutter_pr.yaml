@@ -41,7 +41,6 @@ jobs:
 #         with:
 #           ruby-version: 3.0
 #           bundler-cache: true
-
       - name: Run Lint and Tests
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
